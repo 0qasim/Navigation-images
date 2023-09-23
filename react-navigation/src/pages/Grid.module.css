@@ -1,0 +1,48 @@
+*{margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "poppins",sans-serif;
+
+}
+.container{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+   display: flex;
+align-items: center;
+justify-content: center;
+padding: 50px 8%;
+ gap: 20px; 
+
+}
+
+.grid-items{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+cursor: pointer;
+margin: 20px auto;
+
+}
+.container .grid-items img{
+    max-width: 100%;
+    box-shadow: 0 5px 15px rgba(0,0,0 ,0.7);
+    overflow: hidden;
+    &:hover{
+
+        transform: scale(1.02);
+    }
+}
+
+.grid-items img {
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-image: cover;
+   
+}
+ h1 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-align: center;
+}
