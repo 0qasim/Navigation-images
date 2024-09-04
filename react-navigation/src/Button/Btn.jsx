@@ -32,6 +32,7 @@ export const Btn = ({setUpdateUI}) => {
       </label>
     </Button>
   );
+  
 };
 const Button = styled.div`
   color: #4b37cf;
