@@ -9,7 +9,7 @@ const Project = () => {
   const [updateUI, setUpdateUI] = useState("");
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/get")
+      .get("https://navigation-images-api.vercel.app/api/get")
       .then((res) => {
         console.log(res.data);
         setPhotos(res.data);
