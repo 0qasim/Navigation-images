@@ -13,7 +13,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/Signup", { name, email, password })
+      .post("https://navigation-images-api.vercel.app/Signup", { name, email, password })
       .then((result) => {
         toast.success("Signup successful **Congratulations");
 
