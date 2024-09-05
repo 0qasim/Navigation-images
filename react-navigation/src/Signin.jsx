@@ -33,6 +33,9 @@ const handleSubmit = (e) => {
         window.location.href = "/";
       }, 3000);
       }
+      else {
+      toast.error(result.data);
+    }
     })
     .catch((err) => {
       console.log(err);
