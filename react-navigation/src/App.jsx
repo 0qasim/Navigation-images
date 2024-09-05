@@ -18,7 +18,7 @@ const App = () => {
   axios.defaults.withCredentials = true;
   useEffect(() => {
     axios
-      .get("http://localhost:3001/")
+      .get("https://navigation-images-api.vercel.app/")
       .then((user) => {
         console.log(user);
         setUser(user.data);
