@@ -17,7 +17,7 @@ app.use(express.static("public")); //static
 
 app.use(
   cors({
-    origin: ["https://navigation-images-frontend.vercel.app"],
+    origin: ["https://navigatef.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
