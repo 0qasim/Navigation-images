@@ -14,15 +14,17 @@ require("dotenv").config();
 const app = express();
 app.use(express.json()); // Use JSON body parsing middleware
 app.use(express.static("public")); //static
+const corsOptions = {
+  origin: "https://navigatef.vercel.app", // Add your frontend domain
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true, // Enable credentials (cookies, etc.)
+};
 
-app.use(
-  cors({
-    origin: ["*"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-app.options("*", cors());
+app.use(cors(corsOptions));
+
+// Handle preflight (OPTIONS) requests
+app.options("*", cors(corsOptions));
+
 
 app.use(cookieParser());
 mongoose.connect(
