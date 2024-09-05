@@ -140,7 +140,7 @@ app.post("/Signup", async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-});
+});*/
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
   return res.json("**Success");
@@ -149,4 +149,4 @@ app.get("/logout", (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running ${PORT}`);
-});*/
+});
