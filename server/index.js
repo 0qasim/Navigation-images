@@ -17,7 +17,7 @@ app.use(express.static("public")); //static
 
 app.use(
   cors({
-    origin: ["https://navigatef.vercel.app"],
+    origin: ["*"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -51,7 +51,7 @@ app.get("/", verifyUser, (req, res) => {
   return res.json({ email: req.email, name: req.name });
 });
 
-app.post("/Signin", (req, res) => {
+/*app.post("/Signin",  (req, res) => {
   const { email, password } = req.body;
   EmployeeModel.findOne({ email: email })
     .then((user) => {
@@ -74,7 +74,37 @@ app.post("/Signin", (req, res) => {
       }
     })
     .catch((err) => res.json(err));
+}); */
+app.post("/Signin", async (req, res) => {
+  console.log("Signin endpoint hit");
+  // log incoming request data
+  console.log(req.body);
+  // Add time tracking
+  const start = Date.now();
+  
+  try {
+    const { email, password } = req.body;
+    const user = await EmployeeModel.findOne({ email });
+    console.log(`Time taken: ${Date.now() - start}ms`); // Log time taken
+    
+    if (user) {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (isMatch) {
+        const token = jwt.sign({ email: user.email, name: user.name }, "jwt-secret-key", { expiresIn: "1d" });
+        res.cookie("token", token);
+        return res.json("**Success");
+      } else {
+        return res.json("Password is Incorrect");
+      }
+    } else {
+      return res.json("*Please first Signup, no record found");
+    }
+  } catch (err) {
+    console.log(err); // log error
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
+
 app.post("/Signup", (req, res) => {
   const { name, email, password } = req.body;
   bcrypt
