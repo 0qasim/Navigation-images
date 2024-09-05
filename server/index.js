@@ -77,37 +77,58 @@ app.get("/", verifyUser, (req, res) => {
     })
     .catch((err) => res.json(err));
 }); */
-app.post("/Signin", async (req, res) => {
-  console.log("Signin endpoint hit");
-  // log incoming request data
-  console.log(req.body);
-  // Add time tracking
-  const start = Date.now();
-  
+app.post("/SignIn", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await EmployeeModel.findOne({ email });
-    console.log(`Time taken: ${Date.now() - start}ms`); // Log time taken
-    
-    if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (isMatch) {
-        const token = jwt.sign({ email: user.email, name: user.name }, "jwt-secret-key", { expiresIn: "1d" });
-        res.cookie("token", token);
-        return res.json("**Success");
-      } else {
-        return res.json("Password is Incorrect");
-      }
-    } else {
-      return res.json("*Please first Signup, no record found");
+
+    const employee = await EmployeeModel.findOne({ email });
+
+    if (!employee) {
+      return res
+        .status(404)
+        .send("Employee with this email not found. Please sign up first");
     }
+
+    const isPasswordCorrect = await bcrypt.compare(password, employee.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(400).send("Password incorrect.");
+    }
+
+    const token = jwt.sign({ email, name: employee.name }, "jwt-secret-key", {
+      expiresIn: "1d",
+    });
+
+    res.cookie("token", token);
+
+    res.status(200).send("Employee signed In");
   } catch (err) {
-    console.log(err); // log error
-    res.status(500).json({ error: "Internal server error" });
+    console.error(err);
+    res.status(400).send({ message: err.message });
   }
 });
 
-app.post("/Signup", (req, res) => {
+app.post("/Signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  const alreadyPresent = await EmployeeModel.findOne({ email: email });
+
+  if (alreadyPresent) {
+    return res.status(400).send("Employee with this email already exists.");
+  }
+
+  const hashedpassword = await bcrypt.hash(password, 10);
+
+  const addedEmployee = await EmployeeModel.create({
+    name,
+    email,
+    password: hashedpassword,
+  });
+
+  res.status(201).send(`Employee created: ${addedEmployee}`);
+});
+
+/*app.post("/Signup", (req, res) => {
   const { name, email, password } = req.body;
   bcrypt
     .hash(password, 10)
@@ -128,4 +149,4 @@ app.get("/logout", (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running ${PORT}`);
-});
+});*/
