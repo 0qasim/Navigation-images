@@ -22,6 +22,8 @@ app.use(
     credentials: true,
   })
 );
+app.options("*", cors());
+
 app.use(cookieParser());
 mongoose.connect(
   `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.d56c7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
