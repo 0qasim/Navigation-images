@@ -9,10 +9,13 @@ const Navbar = ({ toggleDrawer, routes }) => {
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const user = useContext(userContext);
   const navigate = useNavigate();
-useEffect(()=>{
-  const storedUser = localstorage.getItem('user');
-  if(storedUser){
-      setUserContext(JSON.parse(storedUser)); // Restore user from localStorage
+ useEffect(() => {
+    // Check if we're in the browser environment before accessing localStorage
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUserContext(JSON.parse(storedUser)); // Restore user from localStorage
+      }
     }
   }, []);
   const toggleProfileOptions = () => {
