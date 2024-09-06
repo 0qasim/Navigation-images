@@ -30,8 +30,8 @@ const handleSubmit = (e) => {
       if (result.data === "**Success") {
         toast.success("Login successful");
         setTimeout(() => {
-        window.location.href = "/";
-      }, 3000);
+navigate("/");
+        }, 3000);
       }
       else {
       toast.error(result.data);
