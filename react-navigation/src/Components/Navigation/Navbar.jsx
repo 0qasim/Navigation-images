@@ -22,9 +22,10 @@ useEffect(()=>{
   const handleLogOut = () => {
     axios
       .get("http://localhost:3001/logout")
-      .then((res) => {
-        if (res.data === "**Success"){
-          localStorage.removeItem('user'); // Clear stored user data
+      .then((res) => {  if (res.data === "**Success") {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem('user'); // Clear stored user data
+          }
           setUserContext(null); // Clear user context
           navigate("/Signin"); // Redirect to sign-in page
         }
