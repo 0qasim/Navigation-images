@@ -27,7 +27,7 @@ const handleSubmit = (e) => {
     .then((result) => {
       toast.error(result.data);
       console.log(result);
-      if (result.data === "**Success") {
+      if (result.status === "200") {
         toast.success("Login successful");
         setTimeout(() => {
 navigate("/");
