@@ -25,9 +25,8 @@ const handleSubmit = (e) => {
   }
   axios.post("https://navigation-images-api.vercel.app/Signin", { email, password }, { withCredentials: true })
     .then((result) => {
-      toast.error(result.data);
       console.log(result);
-      if (result.status === "200") {
+      if (result.status === 200) {
         toast.success("Login successful");
         setTimeout(() => {
 navigate("/");
