@@ -6,19 +6,28 @@ import Menu from "./Menu";
 import { userContext } from "../../App";
 import axios from "axios";
 const Navbar = ({ toggleDrawer, routes }) => {
-  const user = useContext(userContext);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
-
+  const user = useContext(userContext);
+  const navigate = useNavigate();
+useEffect(()=>{
+  const storedUser = localstorage.getItem('user');
+  if(storedUser){
+      setUserContext(JSON.parse(storedUser)); // Restore user from localStorage
+    }
+  }, []);
   const toggleProfileOptions = () => {
     setShowProfileOptions(!showProfileOptions);
   };
 
-  const navigate = useNavigate();
   const handleLogOut = () => {
     axios
       .get("http://localhost:3001/logout")
       .then((res) => {
-        if (res.data === "**Success") navigate(0);
+        if (res.data === "**Success"){
+          localStorage.removeItem('user'); // Clear stored user data
+          setUserContext(null); // Clear user context
+          navigate("/Signin"); // Redirect to sign-in page
+        }
       })
       .catch((err) => console.log(err));
   };
