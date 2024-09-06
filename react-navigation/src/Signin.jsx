@@ -26,11 +26,11 @@ const handleSubmit = (e) => {
   axios.post("https://navigation-images-api.vercel.app/Signin", { email, password }, { withCredentials: true })
     .then((result) => {
       console.log(result);
-      if (result.status === 200) {
+   if (result.data === "**Success") {
         toast.success("Login successful");
         setTimeout(() => {
-navigate("/");
-        }, 3000);
+        window.location.href = "/";
+      }, 3000);
       }
       else {
       toast.error(result.data);
